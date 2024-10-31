@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASEC_ContractManagementSystem_API", "ASEC_ContractManagementSystem_API\ASEC_ContractManagementSystem_API.csproj", "{067100DE-3DA0-4ACE-A9A1-8E5D91FC3547}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASEC_ContractManagementSystem_MVC", "ASEC_ContractManagementSystem_MVC\ASEC_ContractManagementSystem_MVC.csproj", "{C8D2E6D5-0322-47E7-BB68-CC3AC90ECF89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{067100DE-3DA0-4ACE-A9A1-8E5D91FC3547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{067100DE-3DA0-4ACE-A9A1-8E5D91FC3547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{067100DE-3DA0-4ACE-A9A1-8E5D91FC3547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{067100DE-3DA0-4ACE-A9A1-8E5D91FC3547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D2E6D5-0322-47E7-BB68-CC3AC90ECF89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D2E6D5-0322-47E7-BB68-CC3AC90ECF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D2E6D5-0322-47E7-BB68-CC3AC90ECF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D2E6D5-0322-47E7-BB68-CC3AC90ECF89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D11E3BED-0C14-4B58-8FC7-563BB5BFA0FE}
+	EndGlobalSection
+EndGlobal

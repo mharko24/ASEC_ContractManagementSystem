@@ -1,0 +1,131 @@
+﻿@model ExtendedPaging<SiteInstruction>
+@{
+    ViewBag.Title = "Site Instruction List";
+}
+<div class="container" style="font-family:'Century Gothic'">
+    <div class="row mb-2 mt-5">
+        <div class="col col-lg-6 col-md-6 col-sm-6 ">
+           @*  <label id="ContractTitle" class="form-label">@ViewBag.Title</label> *@
+            <h4>@ViewBag.Title</h4>
+        </div>
+        <div class="col col-lg-6 col-md-6 col-sm-6 ">
+            <div class="row col">
+               @*  @if (User.IsInRole("Cost"))
+                {
+                <div class=" col col-8 ms-auto">
+                <h5 id="asignProject">@Model?.AssignProject?.ProjectName</h5>
+                </div>
+                }
+                else
+                {
+                <div class="col col-8 ms-auto" style="padding:0px 47px 0px 25px">
+                <select id="ProjectList" class="form-select form-select-sm">
+                @if (Model != null && Model.ProjectList != null)
+                {
+                @if (Model.ProjectList.Count > 1)
+                {
+                <option selected>Select Project</option>
+                }
+                @foreach (var name in Model.ProjectList)
+                {
+                <option value="@name.ProjectName">@name.ProjectName</option>
+                }
+                }
+
+                </select>
+                </div>
+                } *@
+                <div class="col col-8 ms-auto">
+                    <select id="ProjectList" class="form-select form-select-sm">
+                        <option selected>Select Project</option>
+                        @if (Model != null && Model.Projects != null)
+                        {
+                            @foreach (var name in Model.Projects)
+                            {
+                                <option value="@name.ProjCode">@name.ProjName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row d-flex ms-auto col-8 mt-1">
+                <div class="col col-md-3 col-sm-2 align-content-center">
+                    <select id="pageData" class="form-select form-select-sm">
+                        <option value="10">10</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </div>
+                <div class="col col-md-8 col-sm-10 text-end">
+                    <form asp-action="GetData" method="get">
+                        <div class="input-group">
+                            <input id="txtSearch" type="text" name="s" class="col-lg-4 col-sm-4  form-control form-control-sm" placeholder="Search"  />
+                            <button id="btnSearch" type="submit" class="btn btn-sm-2  btn-primary" > Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2 ">
+        <div class="alert alert-success alert-dismissible fade show col-12" role="alert">
+            <strong>Alert</strong> @TempData["deletemessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <table id="tbl_index" class="table table-responsive table-hover text-center mt-3" style="font-size:clamp(8px,4vw,12px)">
+        <thead>
+            <tr class="table" style="background-color:#6d72b3;color:white">
+                <th width="30%">Project</th>
+                <th width="15%">CM/PMI No.</th>
+                <th width="15%">Asec/PMI No.</th>
+                <th width="10%">Amount</th>
+                <th width="10%">Status</th>
+                <th width="10%">Date</th>
+                @if (User.IsInRole("Admin") || User.IsInRole("Engineering") || User.IsInRole("Cost") || User.IsInRole("Manager"))
+                {
+                    <th width="10%">Action</th>
+                }
+            </tr>
+        </thead>
+        <tbody id="tbody_site">
+            @if (Model != null && Model.ListData != null && Model.ListData.Count() > 0)
+            {
+                foreach (var site in Model.ListData)
+                {
+                    <tr>
+                        <td class="text-start">@site.ProjectName</td>
+                        <td>@site.CMPMINumber</td>
+                        <td>@site.AsecPMINumber</td>
+                        <td>@(site.Amount?.ToString("#,0.00")) </td>
+                        <td>@site.Status</td>
+                        <td>@site.Date.ToString("MMM-dd-yyyy")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+    <div class="d-flex justify-content-center">
+        <ul class="pagination fw-bold" id="pagination">
+        </ul>
+    </div>
+    @if (User.IsInRole("Admin") || User.IsInRole("Cost"))
+    {
+        <div>
+            <div class="position-fixed bottom-0 end-0 m-4">
+                <a class="btn" asp-controller="Site" asp-action="Create" title="Insert new Site">
+
+                    <span id="InsertIcon" class="material-symbols-outlined opacity-50" style="font-size: 70px;">
+                        add_circle
+                    </span>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
