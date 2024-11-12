@@ -1,5 +1,6 @@
 ﻿using ASEC_ContractManagementSystem_API.Data;
 using ASEC_ContractManagementSystem_API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -8,6 +9,7 @@ namespace ASEC_ContractManagementSystem_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+  
     public class SiteController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
@@ -17,6 +19,7 @@ namespace ASEC_ContractManagementSystem_API.Controllers
             _db = db;
         }
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<SiteInstruction>>> GetSites()
         {
             var sites = await _db.SiteInstructions.ToListAsync();

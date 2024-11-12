@@ -13,9 +13,6 @@ namespace ASEC_ContractManagementSystem_API.Entities
         [StringLength(100)]
         [Required]
         public string? Department { get; set; }
-        //[MaxLength(10)]
-        //[StringLength(10)]
-        //[Required]
         public string? AssignProject { get; set; }
     }
 }

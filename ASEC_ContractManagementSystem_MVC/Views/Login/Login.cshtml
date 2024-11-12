@@ -1,0 +1,67 @@
+﻿@model UserModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Sign-In";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    @*    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/custom.css" rel="stylesheet" />
+</head>
+<body>
+    <br />
+    <div class="container">
+        <div class="mx-auto  col-6 col-md-6 col-lg-4">
+            @if (ViewBag.login != null)
+            {
+                <div class="alert alert-warning alert-dismissible text-center show" role="alert">
+                    <strong>Error!</strong> @ViewBag.login
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            <div class="d-flex justify-content-center">
+                <img src="~/image/website logo.png" height="220px" width="250px" />
+            </div>
+
+            <form class="row" asp-action="SignIn" asp-controller="Login" method="post">
+                @Html.AntiForgeryToken()
+                <div class="mx-auto col-12">
+                    <div class="input-container p-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" asp-for="Username" class="col-lg-4 col-sm-4 form-control" placeholder="Username" />
+
+                    </div>
+                    <div class="input-container p-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" asp-for="Password" class="col-lg-4 col-sm-4 form-control" placeholder="Password" />
+
+                    </div>
+
+                    <div class="row ">
+                        <div class="col d-flex justify-content-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" />
+                                <label class="form-check-label"> Remember me </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 p-4" align="center">
+                        <button type="submit" class="btn btn-lg btn-primary" value="Sign In">Sign in</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
