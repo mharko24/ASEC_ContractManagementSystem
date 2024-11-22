@@ -2,6 +2,7 @@
 using ASEC_ContractManagementSystem_API.Entities;
 using ASEC_ContractManagementSystem_API.Models.ViewModels;
 using Azure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -57,6 +58,7 @@ namespace ASEC_ContractManagementSystem_API.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.Username),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
+                new Claim(JwtRegisteredClaimNames.Sid, userInfo.UserId.ToString()),
 
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -67,6 +69,15 @@ namespace ASEC_ContractManagementSystem_API.Controllers
          expires: DateTime.Now.AddMinutes(120),
          signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("JwtToken");
+            HttpContext.Session.Clear();
+            HttpContext.SignOutAsync();
+            //return Ok();
+            return View("Login");
         }
     }
 }

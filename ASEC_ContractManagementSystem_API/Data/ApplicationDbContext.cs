@@ -9,6 +9,8 @@ namespace ASEC_ContractManagementSystem_API.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+        public virtual DbSet<UserProject> UserProjects { get; set; }
+        public virtual DbSet<ProjectDetail> ProjectDetails { get; set; }
         public virtual DbSet<SiteInstruction> SiteInstructions { get; set; }
         public virtual DbSet<PotentialClaim>PotentialClaims{ get; set; }
         public virtual DbSet<FileUpload> FileUploads { get; set; }

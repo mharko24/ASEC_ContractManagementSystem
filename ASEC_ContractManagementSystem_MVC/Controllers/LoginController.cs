@@ -1,8 +1,7 @@
 ﻿using ASEC_ContractManagementSystem_MVC.Entities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Net.Mime;
 using System.Text;
 
 namespace ASEC_ContractManagementSystem_MVC.Controllers
@@ -16,6 +15,7 @@ namespace ASEC_ContractManagementSystem_MVC.Controllers
         {
             _client = new HttpClient();
             _client.BaseAddress = baseAddress;
+
         }
 
         public IActionResult Login()
@@ -56,6 +56,11 @@ namespace ASEC_ContractManagementSystem_MVC.Controllers
                 return View("Login", model);
             }
             
+        }
+        public async Task<IActionResult> SignOut()
+        {
+            var response = await _client.GetAsync(_client.BaseAddress + "/Logout");
+            return RedirectToAction("Login");
         }
     }
 }

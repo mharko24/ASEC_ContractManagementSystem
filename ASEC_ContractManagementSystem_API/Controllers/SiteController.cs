@@ -1,5 +1,7 @@
-﻿using ASEC_ContractManagementSystem_API.Data;
+﻿using ASEC_ContractManagementSystem_API.Common.Paging;
+using ASEC_ContractManagementSystem_API.Data;
 using ASEC_ContractManagementSystem_API.Entities;
+using ASEC_ContractManagementSystem_API.Interfaces.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,24 +12,41 @@ namespace ASEC_ContractManagementSystem_API.Controllers
     [Route("api/[controller]")]
     [ApiController]
   
-    public class SiteController : ControllerBase
+    public class SiteController : BaseController
     {
         private readonly ApplicationDbContext _db;
+        private readonly IGetAssignProjectRepository _getAssignProjectRepository;
+        private readonly IPaginatedRepository<SiteInstruction> _paginatedRepository;
         public SiteController(
-            ApplicationDbContext db)
+            ApplicationDbContext db,
+            IGetAssignProjectRepository getAssignProjectRepository,
+            IPaginatedRepository<SiteInstruction> paginatedRepository)
         {
             _db = db;
+            _getAssignProjectRepository = getAssignProjectRepository;
+            _paginatedRepository = paginatedRepository;
         }
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<SiteInstruction>>> GetSites()
+        public async Task<ActionResult<ExtentedPagination<SiteInstruction>>> GetSites()
         {
-            var sites = await _db.SiteInstructions.ToListAsync();
-            if(sites !=null && sites.Count > 0)
-            {
-                return sites;
-            }
-            return NotFound();
+            var model = new ExtentedPagination<SiteInstruction>();
+            model.Projects = await _getAssignProjectRepository.AssignProjects(UserId);
+            return model;
+        }
+        [HttpGet("GetSiteData")]
+        [Authorize]
+        public async Task<ActionResult<PaginatedResult<SiteInstruction>>> GetSiteData(PaginatedRequest request)
+        {
+            var assignProjects = await _getAssignProjectRepository.AssignProjects(UserId);
+            return await _paginatedRepository
+                .GetPaginated(request.PageNumber,
+                request.ItemsPerPage,
+                x => x.ModifyDate ?? x.Date,
+                x => x.CMSiteId,
+                x => assignProjects.Select(s => s.ProjCode).Contains(x.ProjCode) &&
+                x.ProjCode.Contains(request.SearhKeyword ?? string.Empty) ||
+                x.ProjectName.Contains(request.SearhKeyword ?? string.Empty));
         }
         [HttpGet("{CMSiteId}")]
         public async Task<ActionResult<SiteInstruction>> GetSite(int CMSiteId)

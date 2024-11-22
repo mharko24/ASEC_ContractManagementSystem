@@ -1,5 +1,10 @@
+using ASEC_ContractManagementSystem_API.Data;
+using ASEC_ContractManagementSystem_MVC.Hubs;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(options =>
@@ -8,7 +13,12 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddDbContext<ApplicationDbContext>(option =>
+{
+    option.UseSqlServer(connection);
+});
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +36,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapHub<ContractHub>("/contractHub");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Login}/{id?}");
